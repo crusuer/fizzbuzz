@@ -67,8 +67,8 @@ internal class FizzBuzzControllerIntegrationTest : AbstractIntegrationTest() {
             int1 = -1,
             int2 = 3,
             limit = 7,
-            str1 = "ping",
-            str2 = "pong"
+            str1 = "any",
+            str2 = "any"
         )
 
         given()

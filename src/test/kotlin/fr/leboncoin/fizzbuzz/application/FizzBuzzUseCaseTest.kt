@@ -1,6 +1,5 @@
 package fr.leboncoin.fizzbuzz.application
 
-import fr.leboncoin.fizzbuzz.application.FizzBuzzUseCase
 import fr.leboncoin.fizzbuzz.domain.FizzBuzz
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -15,16 +14,14 @@ internal class FizzBuzzUseCaseTest {
         val request = FizzBuzz(
             int1 = 3,
             int2 = 5,
-            limit = 31,
+            limit = 30,
             str1 = str1,
             str2 = str2
         )
 
         val expected = listOf(
-            "1", "2", str1, "4", str2, str1, "7", "8", str1,
-            str2, "11", str1, "13", "14", str1 + str2, "16", "17",
-            str1, "19", str2, str1, "22", "23", str1, str2,
-            "26", str1, "28", "29", str1 + str2, "31"
+            "1", "2", str1, "4", str2, str1, "7", "8", str1, str2, "11", str1, "13", "14", str1 + str2,
+            "16", "17", str1, "19", str2, str1, "22", "23", str1, str2, "26", str1, "28", "29", str1 + str2
         )
 
         val result = underTest.execute(request)
@@ -67,7 +64,7 @@ internal class FizzBuzzUseCaseTest {
     }
 
     @Test
-    fun `should return only str1 if multiples of int2 not exists`() {
+    fun `should return list containing only str1 if multiples of int2 not exists`() {
         val request = FizzBuzz(
             int1 = 4,
             int2 = 7,
@@ -84,7 +81,7 @@ internal class FizzBuzzUseCaseTest {
     }
 
     @Test
-    fun `should return only str2 if multiples of int1 not exists`() {
+    fun `should return list containing only str2 if multiples of int1 not exists`() {
         val request = FizzBuzz(
             int1 = 5,
             int2 = 3,
@@ -98,5 +95,45 @@ internal class FizzBuzzUseCaseTest {
         val result = underTest.execute(request)
 
         assertThat(result).isEqualTo(expected)
+    }
+
+    @Test
+    fun `should return empty statistics when no requests have been made`() {
+        val result = underTest.getMostFrequentRequest()
+
+        assertThat(result).isNull()
+    }
+
+    @Test
+    fun `should return most frequent request`() {
+        val request1 = FizzBuzz(1, 2, 3, str1, str2)
+        val request2 = FizzBuzz(4, 5, 6, str1, str2)
+        val request3 = FizzBuzz(7, 8, 9, str1, str2)
+
+        underTest.execute(request1)
+        underTest.execute(request2)
+        underTest.execute(request2)
+        underTest.execute(request3)
+
+        val result = underTest.getMostFrequentRequest()
+
+        assertThat(result).isEqualTo(Pair(first = request2, second = 2))
+    }
+
+    @Test
+    fun `should return any top frequent request if draw`() {
+        val request1 = FizzBuzz(1, 1, 3, str1, str2)
+        val request2 = FizzBuzz(2, 2, 6, str1, str2)
+        val request3 = FizzBuzz(3, 3, 9, str1, str2)
+
+        underTest.execute(request1)
+        underTest.execute(request1)
+        underTest.execute(request2)
+        underTest.execute(request2)
+        underTest.execute(request3)
+
+        val result = underTest.getMostFrequentRequest()
+
+        assertThat(result).isEqualTo(Pair(first = request1, second = 2))
     }
 }
