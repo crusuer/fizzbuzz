@@ -2,7 +2,6 @@ package fr.leboncoin.fizzbuzz.adapter.input.controller
 
 import fr.leboncoin.fizzbuzz.AbstractIntegrationTest
 import fr.leboncoin.fizzbuzz.adapter.input.controller.dto.FizzBuzzRequest
-import fr.leboncoin.fizzbuzz.adapter.input.controller.dto.FizzBuzzResponse
 import fr.leboncoin.fizzbuzz.application.FizzBuzzUseCase
 import io.restassured.RestAssured.given
 import org.assertj.core.api.Assertions.assertThat
@@ -34,10 +33,9 @@ internal class FizzBuzzControllerIntegrationTest : AbstractIntegrationTest() {
             str1 = "ping",
             str2 = "pong"
         )
-        val result = listOf("1", "ping", "pong", "ping", "5", "pingpong", "7")
-        val expected = FizzBuzzResponse(result)
+        val expected = listOf("1", "ping", "pong", "ping", "5", "pingpong", "7")
 
-        `when`(useCase.execute(request.toDomain())).thenReturn(result)
+        `when`(useCase.execute(request.toDomain())).thenReturn(expected)
 
         val response = given()
             .`when`()
@@ -55,7 +53,7 @@ internal class FizzBuzzControllerIntegrationTest : AbstractIntegrationTest() {
             .statusCode(HttpStatus.OK.value())
             .extract()
             .body()
-            .`as`(FizzBuzzResponse::class.java)
+            .`as`(List::class.java)
 
         verify(useCase).execute(request.toDomain())
         assertThat(response).isEqualTo(expected)

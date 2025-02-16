@@ -1,7 +1,6 @@
 package fr.leboncoin.fizzbuzz.adapter.input.controller
 
 import fr.leboncoin.fizzbuzz.adapter.input.controller.dto.FizzBuzzRequest
-import fr.leboncoin.fizzbuzz.adapter.input.controller.dto.FizzBuzzResponse
 import fr.leboncoin.fizzbuzz.adapter.input.controller.dto.FizzBuzzStatisticsResponse
 import fr.leboncoin.fizzbuzz.application.FizzBuzzUseCase
 import fr.leboncoin.fizzbuzz.domain.FizzBuzz
@@ -16,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/v1/fizzbuzz")
 class FizzBuzzController(private val useCase: FizzBuzzUseCase) {
     @PostMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun doFizzBuzz(request: FizzBuzzRequest): ResponseEntity<FizzBuzzResponse> {
+    fun doFizzBuzz(request: FizzBuzzRequest): ResponseEntity<List<String>> {
         require(request.int1 > 1 && request.int2 > 1 && request.limit > 1) {
             "int1, int2 and limit should be greater than 1"
         }
         val result = useCase.execute(request.toDomain())
 
-        return ResponseEntity.ok(FizzBuzzResponse(result))
+        return ResponseEntity.ok(result)
     }
 
     @GetMapping(path = ["/statistics"], produces = [MediaType.APPLICATION_JSON_VALUE])
