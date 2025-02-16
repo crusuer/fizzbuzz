@@ -26,11 +26,14 @@ java {
 
 dependencies {
     val junitVersion = "5.10.0"
+    val restAssuredVersion = "5.4.0"
 
     implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-web")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
+    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
 }
 
 tasks.test {
