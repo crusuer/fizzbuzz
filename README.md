@@ -3,13 +3,22 @@
 This project is a [Spring Boot](http://projects.spring.io/spring-boot/) application.
 
 ## Running the application locally
+### Terminal
 To run this application in your terminal these are the requirements:
 - [JDK 21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
-- [Gradle 8](https://gradle.org/install/)
 
 ```shell
 ./gradlew clean build
 ./gradlew bootRun
+```
+### Docker
+To run this application as a container these are the requirements:
+- [JDK 21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
+- [Docker](https://www.docker.com/)
+
+```shell
+./gradlew clean build
+docker run -it $(docker build -q .)
 ```
 
 # REST API

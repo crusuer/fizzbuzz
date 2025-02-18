@@ -121,7 +121,7 @@ internal class FizzBuzzUseCaseTest {
     }
 
     @Test
-    fun `should return any top frequent request if draw`() {
+    fun `should return first top frequent request if draw`() {
         val request1 = FizzBuzz(1, 1, 3, str1, str2)
         val request2 = FizzBuzz(2, 2, 6, str1, str2)
         val request3 = FizzBuzz(3, 3, 9, str1, str2)
